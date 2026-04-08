@@ -4,6 +4,7 @@ from PIL import Image
 from colormath.color_objects import sRGBColor, LabColor
 from colormath.color_diff import delta_e_cie1976
 from colormath.color_conversions import convert_color
+import sys
 
 with open("block_lab.json", "r") as f:
     block_lab_data = json.load(f)
@@ -38,7 +39,7 @@ def region_rms(im, x0, z0, block_size):
     b_rms = (sum(b**2 for _, _, b in pixels) / n) ** 0.5
     return (r_rms, g_rms, b_rms)
 
-def image_to_schem(img_path, out_file="monalisa.schem", block_size=1):
+def image_to_schem(img_path, out_file, block_size=1):
     """Convert an image to a Minecraft schematic using RMS color per block region."""
     im = Image.open(img_path).convert("RGB")
     width, height = im.size
@@ -82,4 +83,7 @@ def image_to_schem(img_path, out_file="monalisa.schem", block_size=1):
     nbtfile.write_file(out_file)
     print(f"Saved {out_file}")
 
-image_to_schem("image.png", block_size=1)
+if (len(sys.argv) < 3):
+    print("Usage: python3 main.py <input_path> <output_path>")
+
+image_to_schem(sys.argv[1], out_file=sys.argv[2], block_size=1)
