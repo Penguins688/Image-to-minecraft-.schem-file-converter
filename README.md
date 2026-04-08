@@ -9,3 +9,7 @@
   ```
 
 ## Usage
+
+```console
+python3 main.py <input_path> <output_path>
+```
