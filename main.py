@@ -5,6 +5,10 @@ from colormath.color_objects import sRGBColor, LabColor
 from colormath.color_diff import delta_e_cie1976
 from colormath.color_conversions import convert_color
 import sys
+import numpy as np
+
+if not hasattr(np, "asscalar"):
+    np.asscalar = lambda a: a.item()
 
 with open("block_lab.json", "r") as f:
     block_lab_data = json.load(f)
